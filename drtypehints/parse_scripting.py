@@ -102,13 +102,13 @@ def get_alias():
 
 def parse_param(param_text: str) -> str:
     param_text = param_text.split("=")[0]
-    return param_text.translate(str.maketrans("", "", "[]{}123"))
+    return param_text.translate(str.maketrans("", "", "[]{}."))
 
 
 def parse_type(type_text: str) -> str:
     # +? is lazy, \[, \{ for escape
-    list_match = re.fullmatch(r"\[(.+?)s?\.*\]", type_text)
-    dict_match = re.fullmatch(r"\{(.+?)s?\.*\}", type_text)
+    list_match = re.fullmatch(r"\[(.+?),? ?s?\.*\]", type_text)
+    dict_match = re.fullmatch(r"\{(.+?),? ?s?\.*\}", type_text)
     assert not (list_match and dict_match)
     if list_match or dict_match:
         prefix = "" if list_match else "{ [string]: "
@@ -170,7 +170,7 @@ def parse_function(function_text: str, self_type: str) -> Optional[LuaFunction]:
     ]
     # delete ... fields
     fields = [LuaFunctionField(name="self", type=self_type)] + list(
-        filter(lambda x: x["name"] != "...", fields)
+        filter(lambda x: x["name"] != "..." and x["type"] != "...", fields)
     )
 
     return_type = parse_type(return_type_raw)

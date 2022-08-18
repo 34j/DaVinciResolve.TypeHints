@@ -9,3 +9,4 @@ class ParseScriptingTest(TestCase):
         self.assertEqual(parse_type('[apple...]'), expected)
         self.assertEqual(parse_type('[Apples]'), expected)
         self.assertEqual(parse_type('[Apple]'), expected)
+        self.assertEqual(parse_type('[{clipInfo}, ...]'), '{ [string]: ClipInfo}[]')
