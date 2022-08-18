@@ -123,8 +123,7 @@ def parse_type(type_text: str) -> str:
     type_regex = {
         "Name": "string",
         "Path": "string",
-        "Folder": "string",
-        "folder": "string",
+        "subfolder": "Folder",
         "File": "string",
         "Idx": "integer",
         "Id": "integer",
