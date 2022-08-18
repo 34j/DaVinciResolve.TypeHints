@@ -13,7 +13,7 @@ SCRIPTING_PATH = Path(
 
 def get_predefined_typings() -> str:
     text = """resolve = resolve ---@type Resolve
-app = app ---@type Resolve
+app = app ---@type Fusion
 fusion = fusion ---@type Fusion
 fu = fu ---@type Fusion\n"""
     return text
