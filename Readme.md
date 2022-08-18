@@ -1,6 +1,15 @@
 # DaVinciResolve.TypeHints
 
+Python project that generates lua type hints based on [this VSCode Extension](https://github.com/sumneko/lua-language-server/wiki/Annotations).
+
+## Coverage
+
+- [x] `C:\ProgramData\Blackmagic Design\DaVinci Resolve\Support\Developer\Scripting\README.txt`
+- [ ] `C:\ProgramData\Blackmagic Design\DaVinci Resolve\Support\Developer\Workflow Integrations\README.txt`
+
 ## Usage
+
+Just copy `typeHints.lua` to your DaVinci Resolve Scripting folder. **`typeHints.lua` must be created by yourself due to copyright reasons.**
 
 ```shell
 py -m venv venv
@@ -20,9 +29,11 @@ pip install -r requirements.txt
 python -m drtypehints
 ```
 
-Then just copy typeHints.lua to your DaVinci Resolve Scripting folder. **typeHints.lua must be created by yourself due to copyright reasons.**
-
 ## Development
 
 - [regex101: build, test, and debug regex](https://regex101.com/)
 - [Annotations · sumneko/lua\-language\-server Wiki](https://github.com/sumneko/lua-language-server/wiki/Annotations)
+
+## Contribution
+
+Pull requests are welcome.
