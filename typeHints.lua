@@ -21,7 +21,7 @@ fu = fu ---@type Fusion
 ---@alias Note string
 ---@alias Keyframe integer
 ---@alias Clip MediaPoolItem
----@alias GradeMode "3"|"1"|"2"
+---@alias GradeMode "1"|"3"|"2"
 ---@alias Timecode string
 ---@alias PropertyKey "Pan"|"Tilt"|"ZoomX"|"ZoomY"|"ZoomGang"|"RotationAngle"|"AnchorPointX"|"AnchorPointY"|"Pitch"|"Yaw"|"FlipX"|"FlipY"|"CropLeft"|"CropRight"|"CropTop"|"CropBottom"|"CropSoftness"|"CropRetain"|"DynamicZoomEase"|"CompositeMode"|"Opacity"|"Distortion"|"RetimeProcess"|"MotionEstimation"|"Scaling"|"ResizeFilter"
 ---@alias Setting "SelectAllFrames"|"MarkIn"|"MarkOut"|"TargetDir"|"CustomName"|"UniqueFilenameStyle"|"ExportVideo"|"ExportAudio"|"FormatWidth"|"FormatHeight"|"FrameRate"|"PixelAspectRatio"|"VideoQuality"|"AudioCodec"|"AudioBitDepth"|"AudioSampleRate"|"ColorSpaceTag"|"GammaTag"|"ExportAlpha"|"EncodingProfile"|"MultiPassEncode"|"AlphaMode"|"NetworkOptimization"
@@ -55,7 +55,7 @@ fu = fu ---@type Fusion
 ---@field CreateFolder fun(self: ProjectManager, folderName: string): boolean Creates a folder if folderName (string) is unique.
 ---@field DeleteFolder fun(self: ProjectManager, folderName: string): boolean Deletes the specified folder if it exists. Returns True in case of success.
 ---@field GetProjectListInCurrentFolder fun(self: ProjectManager): Projectname[] Returns a list of project names in current folder.
----@field GetFolderListInCurrentFolder fun(self: ProjectManager): string[] Returns a list of folder names in current folder.
+---@field GetFolderListInCurrentFolder fun(self: ProjectManager): Folder[] Returns a list of folder names in current folder.
 ---@field GotoRootFolder fun(self: ProjectManager): boolean Opens root folder in database.
 ---@field GotoParentFolder fun(self: ProjectManager): boolean Opens parent folder of current folder in database if current folder has parent.
 ---@field GetCurrentFolder fun(self: ProjectManager): string Returns the current folder name.
@@ -114,8 +114,8 @@ fu = fu ---@type Fusion
 ---@field AddTimelineMattesToMediaPool fun(self: MediaStorage, paths: string[]): MediaPoolItem[] Adds specified media files as timeline mattes in current media pool folder. Returns a list of created MediaPoolItems.
 
 ---@class MediaPool
----@field GetRootFolder fun(self: MediaPool): string Returns root Folder of Media Pool
----@field AddSubFolder fun(self: MediaPool, folder: string, name: string): string Adds new subfolder under specified Folder object with the given name.
+---@field GetRootFolder fun(self: MediaPool): Folder Returns root Folder of Media Pool
+---@field AddSubFolder fun(self: MediaPool, folder: Folder, name: string): Folder Adds new subfolder under specified Folder object with the given name.
 ---@field RefreshFolders fun(self: MediaPool): boolean Updates the folders in collaboration mode
 ---@field CreateEmptyTimeline fun(self: MediaPool, name: string): Timeline Adds new timeline with given name.
 ---@field AppendToTimeline fun(self: MediaPool, clip1: Clip, clip2: Clip): TimelineItem[] Appends specified MediaPoolItem objects in the current timeline. Returns the list of appended timelineItems.
@@ -126,14 +126,14 @@ fu = fu ---@type Fusion
 ---@field CreateTimelineFromClips fun(self: MediaPool, name: string, clipInfo: { [string]: ClipInfo}[]): Timeline Creates new timeline with specified name, appending the list of clipInfos specified as a dict of "mediaPoolItem", "startFrame" (int), "endFrame" (int).
 ---@field ImportTimelineFromFile fun(self: MediaPool, filePath: string, importOptions: { [string]: ImportOption}): Timeline Creates timeline based on parameters within given file and optional importOptions dict, with support for the keys:
 ---@field DeleteTimelines fun(self: MediaPool, timeline: Timeline[]): boolean Deletes specified timelines in the media pool.
----@field GetCurrentFolder fun(self: MediaPool): string Returns currently selected Folder.
----@field SetCurrentFolder fun(self: MediaPool, Folder: string): boolean Sets current folder by given Folder.
+---@field GetCurrentFolder fun(self: MediaPool): Folder Returns currently selected Folder.
+---@field SetCurrentFolder fun(self: MediaPool, Folder: Folder): boolean Sets current folder by given Folder.
 ---@field DeleteClips fun(self: MediaPool, clips: Clip[]): boolean Deletes specified clips or timeline mattes in the media pool
----@field DeleteFolders fun(self: MediaPool, subfolders: string[]): boolean Deletes specified subfolders in the media pool
----@field MoveClips fun(self: MediaPool, clips: Clip[], targetFolder: string): boolean Moves specified clips to target folder.
----@field MoveFolders fun(self: MediaPool, folders: string[], targetFolder: string): boolean Moves specified folders to target folder.
+---@field DeleteFolders fun(self: MediaPool, subfolders: Folder[]): boolean Deletes specified subfolders in the media pool
+---@field MoveClips fun(self: MediaPool, clips: Clip[], targetFolder: Folder): boolean Moves specified clips to target folder.
+---@field MoveFolders fun(self: MediaPool, folders: Folder[], targetFolder: Folder): boolean Moves specified folders to target folder.
 ---@field GetClipMatteList fun(self: MediaPool, MediaPoolItem: MediaPoolItem): string[] Get mattes for specified MediaPoolItem, as a list of paths to the matte files.
----@field GetTimelineMatteList fun(self: MediaPool, Folder: string): MediaPoolItem[] Get mattes in specified Folder, as list of MediaPoolItems.
+---@field GetTimelineMatteList fun(self: MediaPool, Folder: Folder): MediaPoolItem[] Get mattes in specified Folder, as list of MediaPoolItems.
 ---@field DeleteClipMattes fun(self: MediaPool, MediaPoolItem: MediaPoolItem, paths: string[]): boolean Delete mattes based on their file paths, for specified MediaPoolItem. Returns True on success.
 ---@field RelinkClips fun(self: MediaPool, MediaPoolItem: MediaPoolItem[], folderPath: string): boolean Update the folder location of specified media pool clips with the specified folder path.
 ---@field UnlinkClips fun(self: MediaPool, MediaPoolItem: MediaPoolItem[]): boolean Unlink specified media pool clips.
@@ -145,7 +145,7 @@ fu = fu ---@type Fusion
 ---@class Folder
 ---@field GetClipList fun(self: Folder): Clip[] Returns a list of clips (items) within the folder.
 ---@field GetName fun(self: Folder): string Returns the media folder name.
----@field GetSubFolderList fun(self: Folder): string[] Returns a list of subfolders in the folder.
+---@field GetSubFolderList fun(self: Folder): Folder[] Returns a list of subfolders in the folder.
 ---@field GetIsFolderStale fun(self: Folder): boolean Returns true if folder is stale in collaboration mode, false otherwise
 ---@field GetUniqueId fun(self: Folder): string Returns a unique ID for the media pool folder
 
