@@ -1,10 +1,10 @@
 # DaVinciResolve.TypeHints
 
-Python project that generates lua type hints based on [this VSCode Extension](https://github.com/sumneko/lua-language-server/wiki/Annotations). 
+Python project that generates lua type hints based on the most popular Lua Language Server [lua-language-server](https://marketplace.visualstudio.com/items?itemName=sumneko.lua).
 
 ## Sample
 
-Sample is here [typeHints.lua](https://github.com/34j/DaVinciResolve.TypeHints/blob/master/typeHints.lua)
+Sample is here. [typeHints.lua](https://github.com/34j/DaVinciResolve.TypeHints/blob/master/typeHints.lua)
 
 ## Coverage
 
