@@ -3,8 +3,12 @@
 -- Just copy this file to your DaVinci Resolve Scripting folder
 
 
+
+---@class Fusion
+---@field UIManager UIManager
+
 resolve = resolve ---@type Resolve
-app = app ---@type Resolve
+app = app ---@type Fusion
 fusion = fusion ---@type Fusion
 fu = fu ---@type Fusion
 
@@ -21,10 +25,17 @@ fu = fu ---@type Fusion
 ---@alias Note string
 ---@alias Keyframe integer
 ---@alias Clip MediaPoolItem
----@alias GradeMode "1"|"3"|"2"
+---@alias GradeMode "3"|"2"|"1"
 ---@alias Timecode string
 ---@alias PropertyKey "Pan"|"Tilt"|"ZoomX"|"ZoomY"|"ZoomGang"|"RotationAngle"|"AnchorPointX"|"AnchorPointY"|"Pitch"|"Yaw"|"FlipX"|"FlipY"|"CropLeft"|"CropRight"|"CropTop"|"CropBottom"|"CropSoftness"|"CropRetain"|"DynamicZoomEase"|"CompositeMode"|"Opacity"|"Distortion"|"RetimeProcess"|"MotionEstimation"|"Scaling"|"ResizeFilter"
 ---@alias Setting "SelectAllFrames"|"MarkIn"|"MarkOut"|"TargetDir"|"CustomName"|"UniqueFilenameStyle"|"ExportVideo"|"ExportAudio"|"FormatWidth"|"FormatHeight"|"FrameRate"|"PixelAspectRatio"|"VideoQuality"|"AudioCodec"|"AudioBitDepth"|"AudioSampleRate"|"ColorSpaceTag"|"GammaTag"|"ExportAlpha"|"EncodingProfile"|"MultiPassEncode"|"AlphaMode"|"NetworkOptimization"
+---@alias Reason "MouseFocusReason"|"TabFocusReason"|"ActiveWindowFocusReason"|"OtherFocusreason"
+---@alias Size integer[] # {width, height} {640, 480}
+---@alias Position integer[] {X, Y} {0, 0}
+---@alias Geometry integer[] # {X, Y, width, height} {0, 0, 640, 480}
+---@alias Key string
+---@alias ID string
+---@alias Font string
 
 
 -- classes
@@ -289,4 +300,842 @@ fu = fu ---@type Fusion
 ---@field DeleteStills fun(self: GalleryStillAlbum, galleryStill: GalleryStill[]): boolean Deletes specified list of GalleryStill objects '[galleryStill]'.
 
 ---@class GalleryStill # This class does not provide any API functions but the object type is used by functions in other classes.
+
+---@class Slider
+---@field Value integer
+---@field Minimum integer
+---@field Maximum integer
+---@field SingleStep boolean
+---@field PageStep PageStep
+---@field Orientation Orientation
+---@field Tracking boolean
+---@field SliderPosition integer[]
+---@field Show fun(self: Slider): nil 
+---@field Hide fun(self: Slider): nil 
+---@field Raise fun(self: Slider): nil 
+---@field Lower fun(self: Slider): nil 
+---@field Close fun(self: Slider): nil 
+---@field Find fun(self: Slider): nil 
+---@field GetChildren fun(self: Slider): nil 
+---@field AddChild fun(self: Slider): nil 
+---@field RemoveChild fun(self: Slider): nil 
+---@field SetParent fun(self: Slider): nil 
+---@field Move fun(self: Slider): nil 
+---@field Resize fun(self: Slider): nil 
+---@field Size fun(self: Slider): nil 
+---@field Pos fun(self: Slider): nil 
+---@field HasFocus fun(self: Slider): nil 
+---@field SetFocus fun(self: Slider): nil 
+---@field FocusWidget fun(self: Slider): nil 
+---@field IsActiveWindow fun(self: Slider): nil 
+---@field SetTabOrder fun(self: Slider): nil 
+---@field Update fun(self: Slider): nil 
+---@field Repaint fun(self: Slider): nil 
+---@field SetPaletteColor fun(self: Slider): nil 
+---@field QueueEvent fun(self: Slider): nil 
+---@field GetItems fun(self: Slider): nil 
+---@field SetRange fun(self: Slider): nil 
+---@field TriggerAction fun(self: Slider): nil 
+
+---@class LineEdit
+---@field Text string
+---@field PlaceholderText string
+---@field Font Font
+---@field MaxLength integer
+---@field ReadOnly boolean
+---@field Modified boolean
+---@field ClearButtonEnabled boolean
+---@field Show fun(self: LineEdit): nil 
+---@field Hide fun(self: LineEdit): nil 
+---@field Raise fun(self: LineEdit): nil 
+---@field Lower fun(self: LineEdit): nil 
+---@field Close fun(self: LineEdit): nil 
+---@field Find fun(self: LineEdit): nil 
+---@field GetChildren fun(self: LineEdit): nil 
+---@field AddChild fun(self: LineEdit): nil 
+---@field RemoveChild fun(self: LineEdit): nil 
+---@field SetParent fun(self: LineEdit): nil 
+---@field Move fun(self: LineEdit): nil 
+---@field Resize fun(self: LineEdit): nil 
+---@field Size fun(self: LineEdit): nil 
+---@field Pos fun(self: LineEdit): nil 
+---@field HasFocus fun(self: LineEdit): nil 
+---@field SetFocus fun(self: LineEdit): nil 
+---@field FocusWidget fun(self: LineEdit): nil 
+---@field IsActiveWindow fun(self: LineEdit): nil 
+---@field SetTabOrder fun(self: LineEdit): nil 
+---@field Update fun(self: LineEdit): nil 
+---@field Repaint fun(self: LineEdit): nil 
+---@field SetPaletteColor fun(self: LineEdit): nil 
+---@field QueueEvent fun(self: LineEdit): nil 
+---@field GetItems fun(self: LineEdit): nil 
+---@field SetSelection fun(self: LineEdit): nil 
+---@field boolHasSelectedText fun(self: LineEdit): nil 
+---@field stringSelectedText fun(self: LineEdit): nil 
+---@field intSelectionStart fun(self: LineEdit): nil 
+---@field SelectAll fun(self: LineEdit): nil 
+---@field Clear fun(self: LineEdit): nil 
+---@field Cut fun(self: LineEdit): nil 
+---@field Copy fun(self: LineEdit): nil 
+---@field Paste fun(self: LineEdit): nil 
+---@field Undo fun(self: LineEdit): nil 
+---@field Redo fun(self: LineEdit): nil 
+---@field Deselect fun(self: LineEdit): nil 
+---@field Insert fun(self: LineEdit): nil 
+---@field Backspace fun(self: LineEdit): nil 
+---@field Del fun(self: LineEdit): nil 
+---@field Home fun(self: LineEdit): nil 
+---@field End fun(self: LineEdit): nil 
+---@field intCursorPositionAt fun(self: LineEdit): nil 
+
+---@class TextEdit
+---@field Text string
+---@field PlaceholderText string
+---@field HTML HTML
+---@field Font Font
+---@field Alignment Alignment
+---@field ReadOnly boolean
+---@field TextColor string
+---@field TextBackgroundColor string
+---@field TabStopWidth integer
+---@field Lexer Lexer
+---@field LexerColors LexerColor[]
+---@field Show fun(self: TextEdit): nil 
+---@field Hide fun(self: TextEdit): nil 
+---@field Raise fun(self: TextEdit): nil 
+---@field Lower fun(self: TextEdit): nil 
+---@field Close fun(self: TextEdit): nil 
+---@field Find fun(self: TextEdit): nil 
+---@field GetChildren fun(self: TextEdit): nil 
+---@field AddChild fun(self: TextEdit): nil 
+---@field RemoveChild fun(self: TextEdit): nil 
+---@field SetParent fun(self: TextEdit): nil 
+---@field Move fun(self: TextEdit): nil 
+---@field Resize fun(self: TextEdit): nil 
+---@field Size fun(self: TextEdit): nil 
+---@field Pos fun(self: TextEdit): nil 
+---@field HasFocus fun(self: TextEdit): nil 
+---@field SetFocus fun(self: TextEdit): nil 
+---@field FocusWidget fun(self: TextEdit): nil 
+---@field IsActiveWindow fun(self: TextEdit): nil 
+---@field SetTabOrder fun(self: TextEdit): nil 
+---@field Update fun(self: TextEdit): nil 
+---@field Repaint fun(self: TextEdit): nil 
+---@field SetPaletteColor fun(self: TextEdit): nil 
+---@field QueueEvent fun(self: TextEdit): nil 
+---@field GetItems fun(self: TextEdit): nil 
+---@field InsertPlainText fun(self: TextEdit): nil 
+---@field InsertHTML fun(self: TextEdit): nil 
+---@field Append fun(self: TextEdit): nil 
+---@field SelectAll fun(self: TextEdit): nil 
+---@field Clear fun(self: TextEdit): nil 
+---@field Cut fun(self: TextEdit): nil 
+---@field Copy fun(self: TextEdit): nil 
+---@field Paste fun(self: TextEdit): nil 
+---@field Undo fun(self: TextEdit): nil 
+---@field Redo fun(self: TextEdit): nil 
+---@field ScrollToAnchor fun(self: TextEdit): nil 
+---@field ZoomIn fun(self: TextEdit): nil 
+---@field ZoomOut fun(self: TextEdit): nil 
+---@field EnsureCursorVisible fun(self: TextEdit): nil 
+---@field MoveCursor fun(self: TextEdit): nil 
+---@field boolCanPaste fun(self: TextEdit): nil 
+---@field stringAnchorAt fun(self: TextEdit): nil 
+---@field boolFind fun(self: TextEdit): nil 
+
+---@class TreeItem
+---@field Selected boolean
+---@field Hidden boolean
+---@field Expanded boolean
+---@field Disabled boolean
+---@field FirstColumnSpanned boolean
+---@field Flags Flag[]
+---@field ChildIndicatorPolicy ChildIndicatorPolicy
+---@field Text string
+---@field StatusTip StatusTip
+---@field ToolTip ToolTip
+---@field WhatsThis string
+---@field SizeHint Size
+---@field TextAlignment string
+---@field CheckState boolean
+---@field BackgroundColor BackgroundColor
+---@field TextColor string
+---@field Icon Icon
+---@field Font Font
+---@field Show fun(self: TreeItem): nil 
+---@field Hide fun(self: TreeItem): nil 
+---@field Raise fun(self: TreeItem): nil 
+---@field Lower fun(self: TreeItem): nil 
+---@field Close fun(self: TreeItem): nil 
+---@field Find fun(self: TreeItem): nil 
+---@field GetChildren fun(self: TreeItem): nil 
+---@field AddChild fun(self: TreeItem): nil 
+---@field RemoveChild fun(self: TreeItem): nil 
+---@field SetParent fun(self: TreeItem): nil 
+---@field Move fun(self: TreeItem): nil 
+---@field Resize fun(self: TreeItem): nil 
+---@field Size fun(self: TreeItem): nil 
+---@field Pos fun(self: TreeItem): nil 
+---@field HasFocus fun(self: TreeItem): nil 
+---@field SetFocus fun(self: TreeItem): nil 
+---@field FocusWidget fun(self: TreeItem): nil 
+---@field IsActiveWindow fun(self: TreeItem): nil 
+---@field SetTabOrder fun(self: TreeItem): nil 
+---@field Update fun(self: TreeItem): nil 
+---@field Repaint fun(self: TreeItem): nil 
+---@field SetPaletteColor fun(self: TreeItem): nil 
+---@field QueueEvent fun(self: TreeItem): nil 
+---@field GetItems fun(self: TreeItem): nil 
+---@field AddChild fun(self: TreeItem): nil 
+---@field InsertChild fun(self: TreeItem): nil 
+---@field RemoveChild fun(self: TreeItem): nil 
+---@field SortChildren fun(self: TreeItem): nil 
+---@field InsertChildren fun(self: TreeItem): nil 
+---@field AddChildren fun(self: TreeItem): nil 
+---@field intIndexOfChild fun(self: TreeItem): nil 
+---@field itemClone fun(self: TreeItem): nil 
+---@field treeTreeWidget fun(self: TreeItem): nil 
+---@field itemParent fun(self: TreeItem): nil 
+---@field itemChild fun(self: TreeItem): nil 
+---@field itemTakeChild fun(self: TreeItem): nil 
+---@field intChildCount fun(self: TreeItem): nil 
+---@field intColumnCount fun(self: TreeItem): nil 
+
+---@class Icon
+---@field File File
+---@field Show fun(self: Icon): nil 
+---@field Hide fun(self: Icon): nil 
+---@field Raise fun(self: Icon): nil 
+---@field Lower fun(self: Icon): nil 
+---@field Close fun(self: Icon): nil 
+---@field Find fun(self: Icon): nil 
+---@field GetChildren fun(self: Icon): nil 
+---@field AddChild fun(self: Icon): nil 
+---@field RemoveChild fun(self: Icon): nil 
+---@field SetParent fun(self: Icon): nil 
+---@field Move fun(self: Icon): nil 
+---@field Resize fun(self: Icon): nil 
+---@field Size fun(self: Icon): nil 
+---@field Pos fun(self: Icon): nil 
+---@field HasFocus fun(self: Icon): nil 
+---@field SetFocus fun(self: Icon): nil 
+---@field FocusWidget fun(self: Icon): nil 
+---@field IsActiveWindow fun(self: Icon): nil 
+---@field SetTabOrder fun(self: Icon): nil 
+---@field Update fun(self: Icon): nil 
+---@field Repaint fun(self: Icon): nil 
+---@field SetPaletteColor fun(self: Icon): nil 
+---@field QueueEvent fun(self: Icon): nil 
+---@field GetItems fun(self: Icon): nil 
+
+---@class Tree
+---@field ColumnWidth integer
+---@field ColumnCount integer
+---@field SortingEnabled boolean
+---@field ItemsExpandable boolean
+---@field ExpandsOnDoubleClick ExpandsOnDoubleClick
+---@field AutoExpandDelay boolean
+---@field HeaderHidden boolean
+---@field IconSize Size
+---@field RootIsDecorated boolean
+---@field Animated boolean
+---@field AllColumnsShowFocus boolean
+---@field WordWrap WordWrap
+---@field TreePosition integer[]
+---@field SelectionBehavior SelectionBehavior
+---@field SelectionMode SelectionMode
+---@field UniformRowHeights integer[]
+---@field Indentation integer
+---@field VerticalScrollMode VerticalScrollMode
+---@field HorizontalScrollMode HorizontalScrollMode
+---@field AutoScroll boolean
+---@field AutoScrollMargin integer
+---@field TabKeyNavigation TabKeyNavigation
+---@field AlternatingRowColors AlternatingRowColor[]
+---@field FrameStyle FrameStyle
+---@field LineWidth integer
+---@field MidLineWidth integer
+---@field FrameRect Size
+---@field FrameShape Size
+---@field FrameShadow FrameShadow
+---@field Show fun(self: Tree): nil 
+---@field Hide fun(self: Tree): nil 
+---@field Raise fun(self: Tree): nil 
+---@field Lower fun(self: Tree): nil 
+---@field Close fun(self: Tree): nil 
+---@field Find fun(self: Tree): nil 
+---@field GetChildren fun(self: Tree): nil 
+---@field AddChild fun(self: Tree): nil 
+---@field RemoveChild fun(self: Tree): nil 
+---@field SetParent fun(self: Tree): nil 
+---@field Move fun(self: Tree): nil 
+---@field Resize fun(self: Tree): nil 
+---@field Size fun(self: Tree): nil 
+---@field Pos fun(self: Tree): nil 
+---@field HasFocus fun(self: Tree): nil 
+---@field SetFocus fun(self: Tree): nil 
+---@field FocusWidget fun(self: Tree): nil 
+---@field IsActiveWindow fun(self: Tree): nil 
+---@field SetTabOrder fun(self: Tree): nil 
+---@field Update fun(self: Tree): nil 
+---@field Repaint fun(self: Tree): nil 
+---@field SetPaletteColor fun(self: Tree): nil 
+---@field QueueEvent fun(self: Tree): nil 
+---@field GetItems fun(self: Tree): nil 
+---@field AddTopLevelItem fun(self: Tree): nil 
+---@field InsertTopLevelItem fun(self: Tree): nil 
+---@field SetHeaderLabel fun(self: Tree): nil 
+---@field intCurrentColumn fun(self: Tree): nil 
+---@field intSortColumn fun(self: Tree): nil 
+---@field intTopLevelItemCount fun(self: Tree): nil 
+---@field itemCurrentItem fun(self: Tree): nil 
+---@field itemTopLevelItem fun(self: Tree): nil 
+---@field itemTakeTopLevelItem fun(self: Tree): nil 
+---@field itemInvisibleRootItem fun(self: Tree): nil 
+---@field itemHeaderItem fun(self: Tree): nil 
+---@field intIndexOfTopLevelItem fun(self: Tree): nil 
+---@field itemItemAbove fun(self: Tree): nil 
+---@field itemItemBelow fun(self: Tree): nil 
+---@field itemItemAt fun(self: Tree): nil 
+---@field Clear fun(self: Tree): nil 
+---@field rectVisualItemRect fun(self: Tree): nil 
+---@field SetHeaderLabels fun(self: Tree): nil 
+---@field SetHeaderItem fun(self: Tree): nil 
+---@field InsertTopLevelItems fun(self: Tree): nil 
+---@field AddTopLevelItems fun(self: Tree): nil 
+---@field listSelectedItems fun(self: Tree): nil 
+---@field listFindItems fun(self: Tree): nil 
+---@field SortItems fun(self: Tree): nil 
+---@field ScrollToItem fun(self: Tree): nil 
+---@field ResetIndentation fun(self: Tree): nil 
+---@field SortByColumn fun(self: Tree): nil 
+---@field intFrameWidth fun(self: Tree): nil 
+
+---@class ColorPicker
+---@field Text string
+---@field Color Color
+---@field Tracking boolean
+---@field DoAlpha boolean
+---@field Show fun(self: ColorPicker): nil 
+---@field Hide fun(self: ColorPicker): nil 
+---@field Raise fun(self: ColorPicker): nil 
+---@field Lower fun(self: ColorPicker): nil 
+---@field Close fun(self: ColorPicker): nil 
+---@field Find fun(self: ColorPicker): nil 
+---@field GetChildren fun(self: ColorPicker): nil 
+---@field AddChild fun(self: ColorPicker): nil 
+---@field RemoveChild fun(self: ColorPicker): nil 
+---@field SetParent fun(self: ColorPicker): nil 
+---@field Move fun(self: ColorPicker): nil 
+---@field Resize fun(self: ColorPicker): nil 
+---@field Size fun(self: ColorPicker): nil 
+---@field Pos fun(self: ColorPicker): nil 
+---@field HasFocus fun(self: ColorPicker): nil 
+---@field SetFocus fun(self: ColorPicker): nil 
+---@field FocusWidget fun(self: ColorPicker): nil 
+---@field IsActiveWindow fun(self: ColorPicker): nil 
+---@field SetTabOrder fun(self: ColorPicker): nil 
+---@field Update fun(self: ColorPicker): nil 
+---@field Repaint fun(self: ColorPicker): nil 
+---@field SetPaletteColor fun(self: ColorPicker): nil 
+---@field QueueEvent fun(self: ColorPicker): nil 
+---@field GetItems fun(self: ColorPicker): nil 
+
+---@class ComboBox
+---@field ItemText string
+---@field Editable boolean
+---@field CurrentIndex integer
+---@field CurrentText string
+---@field Count integer
+---@field Show fun(self: ComboBox): nil 
+---@field Hide fun(self: ComboBox): nil 
+---@field Raise fun(self: ComboBox): nil 
+---@field Lower fun(self: ComboBox): nil 
+---@field Close fun(self: ComboBox): nil 
+---@field Find fun(self: ComboBox): nil 
+---@field GetChildren fun(self: ComboBox): nil 
+---@field AddChild fun(self: ComboBox): nil 
+---@field RemoveChild fun(self: ComboBox): nil 
+---@field SetParent fun(self: ComboBox): nil 
+---@field Move fun(self: ComboBox): nil 
+---@field Resize fun(self: ComboBox): nil 
+---@field Size fun(self: ComboBox): nil 
+---@field Pos fun(self: ComboBox): nil 
+---@field HasFocus fun(self: ComboBox): nil 
+---@field SetFocus fun(self: ComboBox): nil 
+---@field FocusWidget fun(self: ComboBox): nil 
+---@field IsActiveWindow fun(self: ComboBox): nil 
+---@field SetTabOrder fun(self: ComboBox): nil 
+---@field Update fun(self: ComboBox): nil 
+---@field Repaint fun(self: ComboBox): nil 
+---@field SetPaletteColor fun(self: ComboBox): nil 
+---@field QueueEvent fun(self: ComboBox): nil 
+---@field GetItems fun(self: ComboBox): nil 
+---@field AddItem fun(self: ComboBox): nil 
+---@field InsertItem fun(self: ComboBox): nil 
+---@field AddItems fun(self: ComboBox): nil 
+---@field InsertItems fun(self: ComboBox): nil 
+---@field InsertSeparator fun(self: ComboBox): nil 
+---@field RemoveItem fun(self: ComboBox): nil 
+---@field Clear fun(self: ComboBox): nil 
+---@field SetEditText fun(self: ComboBox): nil 
+---@field ClearEditText fun(self: ComboBox): nil 
+---@field Count fun(self: ComboBox): nil 
+---@field ShowPopup fun(self: ComboBox): nil 
+---@field HidePopup fun(self: ComboBox): nil 
+
+---@class Label
+---@field Text string
+---@field Alignment Alignment
+---@field FrameStyle FrameStyle
+---@field WordWrap WordWrap
+---@field Indent integer
+---@field Margin integer
+---@field Show fun(self: Label): nil 
+---@field Hide fun(self: Label): nil 
+---@field Raise fun(self: Label): nil 
+---@field Lower fun(self: Label): nil 
+---@field Close fun(self: Label): nil 
+---@field Find fun(self: Label): nil 
+---@field GetChildren fun(self: Label): nil 
+---@field AddChild fun(self: Label): nil 
+---@field RemoveChild fun(self: Label): nil 
+---@field SetParent fun(self: Label): nil 
+---@field Move fun(self: Label): nil 
+---@field Resize fun(self: Label): nil 
+---@field Size fun(self: Label): nil 
+---@field Pos fun(self: Label): nil 
+---@field HasFocus fun(self: Label): nil 
+---@field SetFocus fun(self: Label): nil 
+---@field FocusWidget fun(self: Label): nil 
+---@field IsActiveWindow fun(self: Label): nil 
+---@field SetTabOrder fun(self: Label): nil 
+---@field Update fun(self: Label): nil 
+---@field Repaint fun(self: Label): nil 
+---@field SetPaletteColor fun(self: Label): nil 
+---@field QueueEvent fun(self: Label): nil 
+---@field GetItems fun(self: Label): nil 
+---@field SetSelection fun(self: Label): nil 
+---@field boolHasSelection fun(self: Label): nil 
+---@field stringSelectedText fun(self: Label): nil 
+---@field intSelectionStart fun(self: Label): nil 
+
+---@class Font
+---@field Family Family
+---@field StyleName string
+---@field PointSize Size
+---@field PixelSize Size
+---@field Bold Bold
+---@field Italic Italic
+---@field Underline Underline
+---@field Overline Overline
+---@field StrikeOut StrikeOut
+---@field Kerning boolean
+---@field Weight Weight
+---@field Stretch Stretch
+---@field MonoSpaced boolean
+---@field Show fun(self: Font): nil 
+---@field Hide fun(self: Font): nil 
+---@field Raise fun(self: Font): nil 
+---@field Lower fun(self: Font): nil 
+---@field Close fun(self: Font): nil 
+---@field Find fun(self: Font): nil 
+---@field GetChildren fun(self: Font): nil 
+---@field AddChild fun(self: Font): nil 
+---@field RemoveChild fun(self: Font): nil 
+---@field SetParent fun(self: Font): nil 
+---@field Move fun(self: Font): nil 
+---@field Resize fun(self: Font): nil 
+---@field Size fun(self: Font): nil 
+---@field Pos fun(self: Font): nil 
+---@field HasFocus fun(self: Font): nil 
+---@field SetFocus fun(self: Font): nil 
+---@field FocusWidget fun(self: Font): nil 
+---@field IsActiveWindow fun(self: Font): nil 
+---@field SetTabOrder fun(self: Font): nil 
+---@field Update fun(self: Font): nil 
+---@field Repaint fun(self: Font): nil 
+---@field SetPaletteColor fun(self: Font): nil 
+---@field QueueEvent fun(self: Font): nil 
+---@field GetItems fun(self: Font): nil 
+
+---@class TabBar
+---@field TabText string
+---@field TabToolTip TabToolTip
+---@field TabWhatsThis string
+---@field TabTextColor string
+---@field CurrentIndex integer
+---@field TabsClosable boolean
+---@field Expanding boolean
+---@field AutoHide boolean
+---@field Movable boolean
+---@field DrawBase DrawBase
+---@field UsesScrollButtons boolean
+---@field DocumentMode boolean
+---@field ChangeCurrentOnDrag ChangeCurrentOnDrag
+---@field Show fun(self: TabBar): nil 
+---@field Hide fun(self: TabBar): nil 
+---@field Raise fun(self: TabBar): nil 
+---@field Lower fun(self: TabBar): nil 
+---@field Close fun(self: TabBar): nil 
+---@field Find fun(self: TabBar): nil 
+---@field GetChildren fun(self: TabBar): nil 
+---@field AddChild fun(self: TabBar): nil 
+---@field RemoveChild fun(self: TabBar): nil 
+---@field SetParent fun(self: TabBar): nil 
+---@field Move fun(self: TabBar): nil 
+---@field Resize fun(self: TabBar): nil 
+---@field Size fun(self: TabBar): nil 
+---@field Pos fun(self: TabBar): nil 
+---@field HasFocus fun(self: TabBar): nil 
+---@field SetFocus fun(self: TabBar): nil 
+---@field FocusWidget fun(self: TabBar): nil 
+---@field IsActiveWindow fun(self: TabBar): nil 
+---@field SetTabOrder fun(self: TabBar): nil 
+---@field Update fun(self: TabBar): nil 
+---@field Repaint fun(self: TabBar): nil 
+---@field SetPaletteColor fun(self: TabBar): nil 
+---@field QueueEvent fun(self: TabBar): nil 
+---@field GetItems fun(self: TabBar): nil 
+---@field intAddTab fun(self: TabBar): nil 
+---@field intInsertTab fun(self: TabBar): nil 
+---@field intCount fun(self: TabBar): nil 
+---@field RemoveTab fun(self: TabBar): nil 
+---@field MoveTab fun(self: TabBar): nil 
+
+---@class Button
+---@field Text string
+---@field Down boolean
+---@field Checkable boolean
+---@field Checked boolean
+---@field Icon Icon
+---@field IconSize Size
+---@field Flat Flat
+---@field Show fun(self: Button): nil 
+---@field Hide fun(self: Button): nil 
+---@field Raise fun(self: Button): nil 
+---@field Lower fun(self: Button): nil 
+---@field Close fun(self: Button): nil 
+---@field Find fun(self: Button): nil 
+---@field GetChildren fun(self: Button): nil 
+---@field AddChild fun(self: Button): nil 
+---@field RemoveChild fun(self: Button): nil 
+---@field SetParent fun(self: Button): nil 
+---@field Move fun(self: Button): nil 
+---@field Resize fun(self: Button): nil 
+---@field Size fun(self: Button): nil 
+---@field Pos fun(self: Button): nil 
+---@field HasFocus fun(self: Button): nil 
+---@field SetFocus fun(self: Button): nil 
+---@field FocusWidget fun(self: Button): nil 
+---@field IsActiveWindow fun(self: Button): nil 
+---@field SetTabOrder fun(self: Button): nil 
+---@field Update fun(self: Button): nil 
+---@field Repaint fun(self: Button): nil 
+---@field SetPaletteColor fun(self: Button): nil 
+---@field QueueEvent fun(self: Button): nil 
+---@field GetItems fun(self: Button): nil 
+---@field Click fun(self: Button): nil 
+---@field Toggle fun(self: Button): nil 
+---@field AnimateClick fun(self: Button): nil 
+
+---@class Window
+---@field Show fun(self: Window): nil 
+---@field Hide fun(self: Window): nil 
+---@field Raise fun(self: Window): nil 
+---@field Lower fun(self: Window): nil 
+---@field Close fun(self: Window): nil 
+---@field Find fun(self: Window): nil 
+---@field GetChildren fun(self: Window): nil 
+---@field AddChild fun(self: Window): nil 
+---@field RemoveChild fun(self: Window): nil 
+---@field SetParent fun(self: Window): nil 
+---@field Move fun(self: Window): nil 
+---@field Resize fun(self: Window): nil 
+---@field Size fun(self: Window): nil 
+---@field Pos fun(self: Window): nil 
+---@field HasFocus fun(self: Window): nil 
+---@field SetFocus fun(self: Window): nil 
+---@field FocusWidget fun(self: Window): nil 
+---@field IsActiveWindow fun(self: Window): nil 
+---@field SetTabOrder fun(self: Window): nil 
+---@field Update fun(self: Window): nil 
+---@field Repaint fun(self: Window): nil 
+---@field SetPaletteColor fun(self: Window): nil 
+---@field QueueEvent fun(self: Window): nil 
+---@field GetItems fun(self: Window): nil 
+---@field Show fun(self: Window): nil 
+---@field Hide fun(self: Window): nil 
+---@field RecalcLayout fun(self: Window): nil 
+
+---@class SpinBox
+---@field Value integer
+---@field Minimum integer
+---@field Maximum integer
+---@field SingleStep boolean
+---@field Prefix string
+---@field Suffix string
+---@field Alignment Alignment
+---@field ReadOnly boolean
+---@field Wrapping boolean
+---@field Show fun(self: SpinBox): nil 
+---@field Hide fun(self: SpinBox): nil 
+---@field Raise fun(self: SpinBox): nil 
+---@field Lower fun(self: SpinBox): nil 
+---@field Close fun(self: SpinBox): nil 
+---@field Find fun(self: SpinBox): nil 
+---@field GetChildren fun(self: SpinBox): nil 
+---@field AddChild fun(self: SpinBox): nil 
+---@field RemoveChild fun(self: SpinBox): nil 
+---@field SetParent fun(self: SpinBox): nil 
+---@field Move fun(self: SpinBox): nil 
+---@field Resize fun(self: SpinBox): nil 
+---@field Size fun(self: SpinBox): nil 
+---@field Pos fun(self: SpinBox): nil 
+---@field HasFocus fun(self: SpinBox): nil 
+---@field SetFocus fun(self: SpinBox): nil 
+---@field FocusWidget fun(self: SpinBox): nil 
+---@field IsActiveWindow fun(self: SpinBox): nil 
+---@field SetTabOrder fun(self: SpinBox): nil 
+---@field Update fun(self: SpinBox): nil 
+---@field Repaint fun(self: SpinBox): nil 
+---@field SetPaletteColor fun(self: SpinBox): nil 
+---@field QueueEvent fun(self: SpinBox): nil 
+---@field GetItems fun(self: SpinBox): nil 
+---@field SetRange fun(self: SpinBox): nil 
+---@field StepBy fun(self: SpinBox): nil 
+---@field StepUp fun(self: SpinBox): nil 
+---@field StepDown fun(self: SpinBox): nil 
+---@field SelectAll fun(self: SpinBox): nil 
+---@field Clear fun(self: SpinBox): nil 
+
+---@class Dialog
+---@field Show fun(self: Dialog): nil 
+---@field Hide fun(self: Dialog): nil 
+---@field Raise fun(self: Dialog): nil 
+---@field Lower fun(self: Dialog): nil 
+---@field Close fun(self: Dialog): nil 
+---@field Find fun(self: Dialog): nil 
+---@field GetChildren fun(self: Dialog): nil 
+---@field AddChild fun(self: Dialog): nil 
+---@field RemoveChild fun(self: Dialog): nil 
+---@field SetParent fun(self: Dialog): nil 
+---@field Move fun(self: Dialog): nil 
+---@field Resize fun(self: Dialog): nil 
+---@field Size fun(self: Dialog): nil 
+---@field Pos fun(self: Dialog): nil 
+---@field HasFocus fun(self: Dialog): nil 
+---@field SetFocus fun(self: Dialog): nil 
+---@field FocusWidget fun(self: Dialog): nil 
+---@field IsActiveWindow fun(self: Dialog): nil 
+---@field SetTabOrder fun(self: Dialog): nil 
+---@field Update fun(self: Dialog): nil 
+---@field Repaint fun(self: Dialog): nil 
+---@field SetPaletteColor fun(self: Dialog): nil 
+---@field QueueEvent fun(self: Dialog): nil 
+---@field GetItems fun(self: Dialog): nil 
+---@field Exec fun(self: Dialog): nil 
+---@field IsRunning fun(self: Dialog): nil 
+---@field Done fun(self: Dialog): nil 
+---@field RecalcLayout fun(self: Dialog): nil 
+
+---@class CheckBox
+---@field Text string
+---@field Down boolean
+---@field Checkable boolean
+---@field Checked boolean
+---@field Tristate boolean
+---@field CheckState boolean
+---@field Show fun(self: CheckBox): nil 
+---@field Hide fun(self: CheckBox): nil 
+---@field Raise fun(self: CheckBox): nil 
+---@field Lower fun(self: CheckBox): nil 
+---@field Close fun(self: CheckBox): nil 
+---@field Find fun(self: CheckBox): nil 
+---@field GetChildren fun(self: CheckBox): nil 
+---@field AddChild fun(self: CheckBox): nil 
+---@field RemoveChild fun(self: CheckBox): nil 
+---@field SetParent fun(self: CheckBox): nil 
+---@field Move fun(self: CheckBox): nil 
+---@field Resize fun(self: CheckBox): nil 
+---@field Size fun(self: CheckBox): nil 
+---@field Pos fun(self: CheckBox): nil 
+---@field HasFocus fun(self: CheckBox): nil 
+---@field SetFocus fun(self: CheckBox): nil 
+---@field FocusWidget fun(self: CheckBox): nil 
+---@field IsActiveWindow fun(self: CheckBox): nil 
+---@field SetTabOrder fun(self: CheckBox): nil 
+---@field Update fun(self: CheckBox): nil 
+---@field Repaint fun(self: CheckBox): nil 
+---@field SetPaletteColor fun(self: CheckBox): nil 
+---@field QueueEvent fun(self: CheckBox): nil 
+---@field GetItems fun(self: CheckBox): nil 
+---@field Click fun(self: CheckBox): nil 
+---@field Toggle fun(self: CheckBox): nil 
+---@field AnimateClick fun(self: CheckBox): nil 
+
+---@class MousePressEventArgs
+---@field Pos integer[]
+---@field GlobalPos integer[]
+---@field Button Button
+---@field Buttons Button[]
+
+---@class MouseReleaseEventArgs
+---@field Pos integer[]
+---@field GlobalPos integer[]
+---@field Button Button
+---@field Buttons Button[]
+
+---@class MouseDoubleClickEventArgs
+---@field Pos integer[]
+---@field GlobalPos integer[]
+---@field Button Button
+---@field Buttons Button[]
+
+---@class MouseMoveEventArgs
+---@field Pos integer[]
+---@field GlobalPos integer[]
+---@field Button Button
+---@field Buttons Button[]
+
+---@class WheelEventArgs
+---@field Pos integer[]
+---@field GlobalPos integer[]
+---@field Buttons Button[]
+---@field Delta Delta
+---@field PixelDelta PixelDelta
+---@field AngleDelta AngleDelta
+---@field Orientiation Orientiation
+---@field Phase Phase
+
+---@class KeyPressEventArgs
+---@field Key Key
+---@field Text string
+---@field IsAutoRepeat boolean
+---@field Count integer
+
+---@class KeyReleaseEventArgs
+---@field Key Key
+---@field Text string
+---@field IsAutoRepeat boolean
+---@field Count integer
+
+---@class ContextMenuEventArgs
+---@field Pos integer[]
+---@field GlobalPos integer[]
+
+---@class MoveEventArgs
+---@field Pos integer[]
+---@field OldPos integer[]
+
+---@class FocusInEventArgs
+---@field Reason Reason
+
+---@class FocusOutEventArgs
+---@field Reason Reason
+
+---@class ButtonEventHandler
+---@field Clicked Event
+---@field Toggled Event
+---@field Pressed Event
+---@field Released Event
+
+---@class CheckBoxEventHandler
+---@field Clicked Event
+---@field Toggled Event
+---@field Pressed Event
+---@field Released Event
+
+---@class ComboBoxEventHandler
+---@field CurrentIndexChanged Event
+---@field CurrentTextChanged Event
+---@field TextEdited Event
+---@field EditTextChanged Event
+---@field EditingFinished Event
+---@field ReturnPressed Event
+---@field Activated Event
+
+---@class SpinBoxEventHandler
+---@field ValueChanged Event
+---@field EditingFinished Event
+
+---@class SliderEventHandler
+---@field ValueChanged Event
+---@field SliderMoved Event
+---@field ActionTriggered Event
+---@field SliderPressed Event
+---@field SliderReleased Event
+---@field RangeChanged Event
+
+---@class LineEditEventHandler
+---@field TextChanged Event
+---@field TextEdited Event
+---@field EditingFinished Event
+---@field ReturnPressed Event
+---@field SelectionChanged Event
+---@field CursorPositionChanged Event
+
+---@class TextEditEventHandler
+---@field TextChanged Event
+---@field SelectionChanged Event
+---@field CursorPositionChanged Event
+
+---@class ColorPickerEventHandler
+---@field ColorChanged Event
+
+---@class TabBarEventHandler
+---@field CurrentChanged Event
+---@field CloseRequested Event
+---@field TabMoved Event
+---@field TabBarClicked Event
+---@field TabBarDoubleClicked Event
+
+---@class TreeEventHandler
+---@field CurrentItemChanged Event
+---@field ItemClicked Event
+---@field ItemPressed Event
+---@field ItemActivated Event
+---@field ItemDoubleClicked Event
+---@field ItemChanged Event
+---@field ItemEntered Event
+---@field ItemExpanded Event
+---@field ItemCollapsed Event
+---@field CurrentItemChanged Event
+---@field ItemSelectionChanged Event
+
+---@class WindowEventHandler
+---@field Close Event
+---@field Show Event
+---@field Hide Event
+---@field Resize Event
+---@field MousePress Event
+---@field MouseRelease Event
+---@field MouseDoubleClick Event
+---@field MouseMove Event
+---@field Wheel Event
+---@field KeyPress Event
+---@field KeyRelease Event
+---@field FocusIn Event
+---@field FocusOut Event
+---@field ContextMenu Event
+---@field Enter Event
+---@field Leave Event
+
+---@class UIManager
+---@field Slider fun(self: UIManager, ui: Slider): Slider 
+---@field LineEdit fun(self: UIManager, ui: LineEdit): LineEdit 
+---@field TextEdit fun(self: UIManager, ui: TextEdit): TextEdit 
+---@field TreeItem fun(self: UIManager, ui: TreeItem): TreeItem 
+---@field Icon fun(self: UIManager, ui: Icon): Icon 
+---@field Tree fun(self: UIManager, ui: Tree): Tree 
+---@field ColorPicker fun(self: UIManager, ui: ColorPicker): ColorPicker 
+---@field ComboBox fun(self: UIManager, ui: ComboBox): ComboBox 
+---@field Label fun(self: UIManager, ui: Label): Label 
+---@field Font fun(self: UIManager, ui: Font): Font 
+---@field TabBar fun(self: UIManager, ui: TabBar): TabBar 
+---@field Button fun(self: UIManager, ui: Button): Button 
+---@field Window fun(self: UIManager, ui: Window): Window 
+---@field SpinBox fun(self: UIManager, ui: SpinBox): SpinBox 
+---@field Dialog fun(self: UIManager, ui: Dialog): Dialog 
+---@field CheckBox fun(self: UIManager, ui: CheckBox): CheckBox 
 

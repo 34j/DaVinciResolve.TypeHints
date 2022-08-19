@@ -9,7 +9,7 @@ Sample is here. [typeHints.lua](https://github.com/34j/DaVinciResolve.TypeHints/
 ## Coverage
 
 - [x] `C:\ProgramData\Blackmagic Design\DaVinci Resolve\Support\Developer\Scripting\README.txt`
-- [ ] `C:\ProgramData\Blackmagic Design\DaVinci Resolve\Support\Developer\Workflow Integrations\README.txt`
+- [x] `C:\ProgramData\Blackmagic Design\DaVinci Resolve\Support\Developer\Workflow Integrations\README.txt`
 
 ## Usage
 

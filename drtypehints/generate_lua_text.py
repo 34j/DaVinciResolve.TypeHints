@@ -9,6 +9,11 @@ def get_alias_text(alias_dict: dict) -> Generator[str, None, None]:
         
 def get_class_text(lua_class: LuaClass) -> Generator[str, None, None]:
     yield f'---@class {lua_class["name"]}'
+    
+    for property in lua_class["properties"]:
+        property_text = f'---@field {property["name"]} {property["type"]}'
+        yield property_text
+    
     for function in lua_class['functions']:
         fun_text = f"---@field {function['name']} "
         

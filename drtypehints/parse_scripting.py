@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Optional, Iterable
 import re
-from drtypehints.lua_types import LuaClass, LuaFunction, LuaFunctionField
+from drtypehints.lua_types import LuaClass, LuaFunction, LuaFunctionField, join_alias
 
 from logging import getLogger
 import humps
@@ -12,15 +12,18 @@ SCRIPTING_PATH = Path(
 
 
 def get_predefined_typings() -> str:
-    text = """resolve = resolve ---@type Resolve
+    text = (
+        """
+---@class Fusion
+---@field UIManager UIManager
+"""
+        + """
+resolve = resolve ---@type Resolve
 app = app ---@type Fusion
 fusion = fusion ---@type Fusion
 fu = fu ---@type Fusion\n"""
+    )
     return text
-
-
-def join_alias(items: Iterable[str]) -> str:
-    return '"' + '"|"'.join(items) + '"'
 
 
 def get_alias():
@@ -35,9 +38,7 @@ def get_alias():
         "Note": "string",
         "Keyframe": "integer",
         "Clip": "MediaPoolItem",
-        "GradeMode": join_alias({
-            "1", "2", "3"
-        }),
+        "GradeMode": join_alias({"1", "2", "3"}),
         "Timecode": "string",
         "PropertyKey": join_alias(
             [
@@ -105,20 +106,25 @@ def parse_param(param_text: str) -> str:
     return param_text.translate(str.maketrans("", "", "[]{}."))
 
 
-def parse_type(type_text: str) -> str:
+def parse_type(param_or_type_text: str) -> str:
     # +? is lazy, \[, \{ for escape
-    list_match = re.fullmatch(r"\[(.+?),? ?s?\.*\]", type_text)
-    dict_match = re.fullmatch(r"\{(.+?),? ?s?\.*\}", type_text)
+    list_match = re.fullmatch(r"\[(.+?),? ?s?\.*\]", param_or_type_text)
+    dict_match = re.fullmatch(r"\{(.+?),? ?s?\.*\}", param_or_type_text)
     assert not (list_match and dict_match)
-    if list_match or dict_match:
-        prefix = "" if list_match else "{ [string]: "
-        suffix = "[]" if list_match else "}"
-        inner = list_match.group(1) if list_match else dict_match.group(1)
+    if list_match:
+        prefix = ""
+        suffix = "[]"
+        inner = list_match.group(1)
+        return prefix + parse_type(inner) + suffix
+    elif dict_match:
+        prefix = "{ [string]: "
+        suffix = "}"
+        inner = dict_match.group(1)
         return prefix + parse_type(inner) + suffix
 
-    type_text = humps.pascalize(type_text)
-    type_text = type_text.split("=")[0]
-    type_text = type_text.translate(str.maketrans("", "", "123"))
+    param_or_type_text = humps.pascalize(param_or_type_text)  # type: ignore
+    param_or_type_text = param_or_type_text.split("=")[0]
+    param_or_type_text = param_or_type_text.translate(str.maketrans("", "", "123"))
 
     type_regex = {
         "Name": "string",
@@ -137,8 +143,8 @@ def parse_type(type_text: str) -> str:
         "Timecode": "Timecode",
     }
     for key, value in type_regex.items():
-        if key in type_text:
-            type_text = value
+        if key in param_or_type_text:
+            param_or_type_text = value
             break
 
     parse_dict = {
@@ -147,7 +153,7 @@ def parse_type(type_text: str) -> str:
         "Int": "integer",
         "None": "nil",
     }
-    return parse_dict.get(type_text, type_text)
+    return parse_dict.get(param_or_type_text, param_or_type_text)
 
 
 def parse_function(function_text: str, self_type: str) -> Optional[LuaFunction]:
@@ -191,12 +197,12 @@ def parse_class(class_text: str) -> LuaClass:
         else:
             logger.warning(f"Could not parse function: {line}")
 
-    return LuaClass(name=name, functions=functions, description=name)
+    return LuaClass(name=name, functions=functions, description=name, properties=[])
 
 
 def get_classes() -> Iterable[LuaClass]:
     text = SCRIPTING_PATH.read_text().replace("\r\n", "\n").replace("\r", "\n")
-    text = text.replace('\n  Export', '  Export') # inconsistency in the reference
+    text = text.replace("\n  Export", "  Export")  # inconsistency in the reference
     text = re.sub(" +", " ", text)
     api_text = text.split("Basic Resolve API")[1].split(
         "List and Dict Data Structures"
