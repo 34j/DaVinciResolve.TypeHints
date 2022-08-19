@@ -10,12 +10,18 @@ Sample is here. [typeHints.lua](https://github.com/34j/DaVinciResolve.TypeHints/
 
 - [x] `C:\ProgramData\Blackmagic Design\DaVinci Resolve\Support\Developer\Scripting\README.txt`
 - [x] `C:\ProgramData\Blackmagic Design\DaVinci Resolve\Support\Developer\Workflow Integrations\README.txt`
+- [ ] `C:\ProgramData\Blackmagic Design\DaVinci Resolve\Support\Developer\Fusion Fuse\Fusion Fuse Manual.pdf`
+- [ ] Unorganized part of above references
+- [ ] Discoverable properties / methods / registry attributes using `app:GetHelpRaw('ClassName')`
+- [ ] Other not documented / undiscoverble properties / methods / registry attributes
 
 ## Usage
 
-Just copy `typeHints.lua` to your DaVinci Resolve Scripting folder. **`typeHints.lua` must be created by yourself due to copyright reasons.**
+Just copy `typeHints.lua` to your DaVinci Resolve Scripting folder. **`typeHints.lua` must be created by yourself due to copyright reasons.** Actually, it can be generated simply by copying and pasting the command below into a command prompt.
 
 ```shell
+mkdir DaVinciResolve.TypeHints
+cd DaVinciResolve.TypeHints
 py -m venv venv
 "./venv/Scripts/Activate.bat"
 pip install git+https://github.com/34j/DaVinciResolve.TypeHints.git
@@ -32,6 +38,13 @@ py -m venv venv
 pip install -r requirements.txt
 python -m drtypehints
 ```
+
+## Alternatives
+
+- [pedrolabonia/pydavinci: A python package that helps you script DaVinci Resolve](https://github.com/pedrolabonia/pydavinci)
+    Python Wrapper for DaVinci Resolve Python apis (Properties and Methods are in snake_case)
+
+As for Lua, no alternatives was found.
 
 ## Development
 
