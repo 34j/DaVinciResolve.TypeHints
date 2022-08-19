@@ -7,7 +7,7 @@ setup(
     author="34j",
     url="https://github.com/34j/DaVinciResolve.TypeHints",
     packages=find_packages(),
-    install_requires=['click', 'humps'],
+    install_requires=['click', 'pyhumps'],
     license='MIT License',
     entry_points={
         "console_scripts": [
