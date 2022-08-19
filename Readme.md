@@ -15,6 +15,10 @@ Sample is here. [typeHints.lua](https://github.com/34j/DaVinciResolve.TypeHints/
 - [ ] Discoverable properties / methods / registry attributes using `app:GetHelpRaw('ClassName')`
 - [ ] Other not documented / undiscoverble properties / methods / registry attributes
 
+## Requirements
+
+Installation of DaVinci Resolve is required. The project is by default for Windows only due to an issue with the file path of the references, but if you edit the script, it should work well on other operating systems.
+
 ## Usage
 
 Just copy `typeHints.lua` to your DaVinci Resolve Scripting folder. **`typeHints.lua` must be created by yourself due to copyright reasons.** Actually, it can be generated simply by copying and pasting the command below into a command prompt.
